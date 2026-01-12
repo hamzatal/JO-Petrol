@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
-
+import Users from "./pages/Users";
 function App() {
     const [text, setText] = useState("");
 
@@ -13,4 +13,4 @@ function App() {
     );
 }
 
-ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+ReactDOM.createRoot(document.getElementById('app')).render(<Users />);

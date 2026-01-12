@@ -1,16 +1,28 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom/client";
-import Users from "./pages/Users";
-function App() {
-    const [text, setText] = useState("");
+import "./bootstrap";
+import "../css/app.css";
+import axios from "axios";
 
-    return (
-        <div style={{ padding: 20 }}>
-            <h1>React + Laravel App 🚀</h1>
-            <input value={text} onChange={e => setText(e.target.value)} placeholder="Type something"/>
-            <p>{text}</p>
-        </div>
-    );
-}
+import { createRoot } from "react-dom/client";
+import { createInertiaApp } from "@inertiajs/react";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
-ReactDOM.createRoot(document.getElementById('app')).render(<Users />);
+const appName = import.meta.env.VITE_APP_NAME || "Laravel";
+
+axios.defaults.baseURL = "http://127.0.0.1:8000/api"; 
+
+createInertiaApp({
+    title: (title) => `${title} - ${appName}`,
+    resolve: (name) =>
+        resolvePageComponent(
+            `./Pages/${name}.jsx`,
+            import.meta.glob("./Pages/**/*.jsx")
+        ),
+    setup({ el, App, props }) {
+        const root = createRoot(el);
+
+        root.render(<App {...props} />);
+    },
+    progress: {
+        color: "#4B5563",
+    },
+});
